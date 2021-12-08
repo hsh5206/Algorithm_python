@@ -259,3 +259,10 @@ print(result)
 # Counter
 # 6. math
 # gcd & lcm
+
+# 기타팁
+# 스왑기능
+a, b = 3, 6
+print(a, b)
+a, b = b, a
+print(a, b)
