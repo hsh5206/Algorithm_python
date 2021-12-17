@@ -13,7 +13,7 @@ n, m = map(int, input().split())
 # 시작노드
 start = int(input())
 # 각 노드의 연결되어 있는 노드에 대한 정보 2차원리스트
-graph = [[] for i in range(n+1)]
+graph = [[] for _ in range(n+1)]
 # 최단거리 테이블
 distance = [INF]*(n+1)
 # 간선의 정보 입력받기
