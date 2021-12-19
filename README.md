@@ -1,6 +1,6 @@
 ## Algorithm_with_Python
 
-#### *with*이코테 Book*Baekjun*
+#### _with_ 이코테 & Baekjun
 
 ---
 
