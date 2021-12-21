@@ -1,16 +1,18 @@
 # 연결 요소의 개수
 # BFS & 서로소 집합
 
+import sys
 from collections import deque
+input = sys.stdin.readline
 N, M = map(int, input().split())
 
-visited = [False]*(N+1)
-
 arr = [[] for _ in range(N+1)]
-for i in range(M):
+for _ in range(M):
     a, b = map(int, input().split())
     arr[a].append(b)
     arr[b].append(a)
+
+visited = [False] * (N+1)
 
 
 def bfs(start):
@@ -19,15 +21,16 @@ def bfs(start):
     visited[start] = True
     while q:
         x = q.popleft()
-        for i in arr[x]:
-            if not visited[i]:
-                q.append(i)
-                visited[i] = True
+        for k in arr[x]:
+            if visited[k] == False:
+                q.append(k)
+                visited[k] = True
 
 
-cnt = 0
+count = 0
 for i in range(1, N+1):
-    if not visited[i]:
+    if visited[i] == False:
         bfs(i)
-        cnt += 1
-print(cnt)
+        count += 1
+
+print(count)
