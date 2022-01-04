@@ -18,7 +18,7 @@ for i in range(E):
 
 # 1번노드에서 출발 현재비용: 0
 heap = [[0, 1]]
-
+rs = 0
 while heap:
     cost, node = heap.heappop(heap)
     # 방문을 안했다면
