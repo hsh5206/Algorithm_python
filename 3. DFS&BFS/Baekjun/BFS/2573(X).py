@@ -1,52 +1,80 @@
+# 빙산
+
 import sys
+import copy
 from collections import deque
-
-
-def bfs(i, j, visit):
-    que = deque([[i, j]])
-    melting_que = deque()  # 빙하가 녹는 위치와 녹는 정도를 저장하는 큐
-    visit[i][j] = 1
-    while que:
-        i, j = que.popleft()
-        melt_cnt = 0
-        for d_x, d_y in direction:
-            next_x = i + d_x
-            next_y = j + d_y
-            if 0 <= next_x <= x-1 and 0 <= next_y <= y-1 and visit[next_x][next_y] == 0:
-                # 빙산의 높이가 있고 방문을 안했을 경우 que에 값 넣어주기
-                if glacier[next_x][next_y] != 0:
-                    visit[next_x][next_y] = 1  # 방문 체크
-                    que.append([next_x, next_y])
-            # 사방향 탐색 시 0일 경우 melt_cnt 증가
-                else:
-                    melt_cnt += 1
-        if melt_cnt:
-            melting_que.append([i, j, melt_cnt])
-    return melting_que
-
-
 input = sys.stdin.readline
-year = 0  # 몇 년이 지났는지 판단하는 변수
-x, y = map(int, input().split())
-glacier = [[int(n) for n in input().split()] for _ in range(x)]
-direction = ((1, 0), (-1, 0), (0, -1), (0, 1))  # 동서남북
-# 반복문 종료 조건 -> 빙산의 갯수가 0이거나 2일 경우
+N, M = map(int, input().split())
+arr = [] * N
+for _ in range(N):
+    arr.append(list(map(int, input().split())))
+
+dx = [0, 1, 0, -1]
+dy = [1, 0, -1, 0]
+result = 0
+
+
+def numOfZero(x, y):
+    result = 0
+    for k in range(4):
+        nx = x + dx[k]
+        ny = y + dy[k]
+        if 0 <= nx < N and 0 <= ny < M:
+            if temp[nx][ny] == 0:
+                result += 1
+    return result
+
+
+def bfs(a, b):
+    q = deque()
+    q.append((a, b))
+    visited = [[False] * M for _ in range(N)]
+    visited[a][b] = True
+    while q:
+        x, y = q.popleft()
+        for k in range(4):
+            nx = x + dx[k]
+            ny = y + dy[k]
+            if 0 <= nx < N and 0 <= ny < M:
+                if not visited[nx][ny] and temp[nx][ny] != 0:
+                    q.append((nx, ny))
+                    temp[nx][ny] = 0
+                    visited[nx][ny] = True
+
+
+def checkZero():
+    for i in range(N):
+        for j in range(M):
+            if arr[i][j] != 0:
+                return False
+    return True
+
+
 while True:
-    cnt = 0  # 빙산의 갯수를 담는 cnt 변수
-    visit = [[0 for _ in range(y)] for _ in range(x)]  # bfs를 위한 탐색 확인 리스트
-    for i in range(x-1):
-        for j in range(y-1):
-            if glacier[i][j] != 0 and visit[i][j] == 0:  # 빙하의 높이가 남아있고 방문하지 않을 경우
-                cnt += 1  # 빙산의 갯수 추가
-                melt = bfs(i, j, visit)  # bfs 시작을 하고 각 좌표별로 녹는 정도 반환
-                while melt:
-                    m_x, m_y, m = melt.popleft()
-                    glacier[m_x][m_y] = max(glacier[m_x][m_y]-m, 0)
-    if cnt == 0:
-        year = 0
+    if checkZero():
+        result = 0
         break
-    if cnt >= 2:
+
+    temp = copy.deepcopy(arr)
+    for i in range(N):
+        for j in range(M):
+            if arr[i][j] != 0:
+                arr[i][j] = arr[i][j] - numOfZero(i, j)
+                if arr[i][j] < 0:
+                    arr[i][j] = 0
+
+    temp = copy.deepcopy(arr)
+    count = 0
+    for i in range(N):
+        for j in range(M):
+            if temp[i][j] != 0:
+                temp[i][j] = 0
+                count += 1
+                bfs(i, j)
+
+    result += 1
+    if count > 1:
         break
-    year += 1  # 일 년 증가
-    # 빙산의 갯수가 0이거나 2일 경우 반복문 종료
-print(year)
+
+
+print(result)
