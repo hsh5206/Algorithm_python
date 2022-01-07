@@ -1,4 +1,4 @@
-## Algorithm_with_Python
+## Algorithm_Python
 
 #### _with_ 이코테 & BOJ
 
