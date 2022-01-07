@@ -1,6 +1,6 @@
 ## Algorithm_with_Python
 
-#### _with_ 이코테 & Baekjun
+#### _with_ 이코테 & BOJ
 
 ---
 
