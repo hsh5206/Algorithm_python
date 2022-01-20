@@ -1,8 +1,6 @@
 # 숨바꼭질 3
 
 from collections import deque
-N, M = map(int, input().split())
-visited = [0] * 1000001
 
 
 def bfs():
@@ -23,4 +21,6 @@ def bfs():
                     q.append(nnow)
 
 
+N, M = map(int, input().split())
+visited = [0] * 1000001
 print(bfs())
