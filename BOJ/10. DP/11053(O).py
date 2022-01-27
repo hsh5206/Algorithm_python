@@ -3,9 +3,7 @@ import sys
 
 N = int(input())
 arr = list(map(int, sys.stdin.readline().split()))
-
 dp = [1] * N
-dp[0] = 1
 
 for i in range(1, N):
     for j in range(i):
