@@ -1,17 +1,15 @@
 # 낚시왕
+import copy
 import sys
+from collections import deque
 input = sys.stdin.readline
 
 N, M, S = map(int, input().split())
-arr = [[[] for _ in range(M+1)] for _ in range(N+1)]
-shark = []
+arr = [[deque([]) for _ in range(M+1)] for _ in range(N+1)]
 for _ in range(S):
     n, m, speed, direction, big = map(int, input().split())
     arr[n][m].append((speed, direction, big))
-    shark.append([n, m, speed, direction, big])
 
-
-fishing_shark = [1, 0]
 shark_move = [[], [-1, 0], [1, 0], [0, 1], [0, -1]]
 check = []
 
@@ -25,28 +23,28 @@ def fishing(now):
             break
 
 
-def move_shark():
-    for k in range(len(shark)):
-        if arr[n][m]:
-            speed, dir, big = arr[n][m].pop()
-            nn = n
-            nm = m
-            for _ in range(speed):
-                nn += shark_move[dir][0]
-                nm += shark_move[dir][1]
-                if 0 < nn <= N and 0 < nm <= M:
-                    continue
-                else:
-                    nn -= shark_move[dir][0]
-                    nm -= shark_move[dir][1]
-                    dir = change_dir(dir)
+def move_shark(temp):
+    for n in range(1, N+1):
+        for m in range(1, M+1):
+            if temp[n][m]:
+                temp[n][m].pop()
+                speed, dir, big = arr[n][m].popleft()
+                nn = n
+                nm = m
+                for _ in range(speed):
                     nn += shark_move[dir][0]
                     nm += shark_move[dir][1]
-            if arr[nn][nm]:
-                check.append((nn, nm))
-            arr[nn][nm].append((speed, dir, big))
-            shark[k][0] = nn
-            shark[k][1] = nm
+                    if 0 < nn <= N and 0 < nm <= M:
+                        continue
+                    else:
+                        nn -= shark_move[dir][0]
+                        nm -= shark_move[dir][1]
+                        dir = change_dir(dir)
+                        nn += shark_move[dir][0]
+                        nm += shark_move[dir][1]
+                if arr[nn][nm]:
+                    check.append((nn, nm))
+                arr[nn][nm].append((speed, dir, big))
 
 
 def change_dir(dir):
@@ -74,9 +72,10 @@ def eat_shark():
 
 
 result = 0
-for i in range(1, N+1):
+for i in range(1, M+1):
     fishing(i)
-    move_shark()
+    temp = copy.deepcopy(arr)
+    move_shark(temp)
     if check:
         eat_shark()
 print(result)
