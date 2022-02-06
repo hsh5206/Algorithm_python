@@ -1,25 +1,35 @@
+# 자동완성
+class Trie():
+    head = [0, dict()]
+
+    def add(self, word):
+        current = self.head
+        current[0] += 1
+        for x in word:
+            if x not in current[1]:
+                current[1][x] = [0, dict()]
+            current = current[1][x]
+            current[0] += 1
+
+    def check(self, word):
+        current = self.head
+        result = 0
+        for x in word:
+            if current[0] == 1:
+                return result
+            result += 1
+            current = current[1][x]
+        return result
+
+
 def solution(words):
     answer = 0
-    for i in range(len(words)):
-        word = words[i]
-        isBreak = False
-        count = 0
-        while True:
-            for j in range(len(words)):
-                if i == j:
-                    continue
-                if word in words[j]:
-                    if count != 0:
-                        answer += 1
-                    answer += len(word)
-                    isBreak = True
-                    break
-            if not isBreak:
-                word = word[:-1]
-                count += 1
-            else:
-                break
+    T = Trie()
+    for word in words:
+        T.add(word)
+    for word in words:
+        answer += T.check(word)
     return answer
 
 
-print(solution(["go", "gone", "guild"]))
+print(solution(["word", "war", "warrior", "world"]))
