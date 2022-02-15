@@ -1,3 +1,4 @@
+# 후보키
 from itertools import combinations
 
 

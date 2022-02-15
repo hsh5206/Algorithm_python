@@ -1,3 +1,4 @@
+# 오픈채팅방
 uuid = dict()
 id_name = dict()
 

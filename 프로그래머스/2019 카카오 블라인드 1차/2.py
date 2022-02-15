@@ -1,3 +1,4 @@
+# 실패율
 def solution(N, stages):
     answer = [[i, 0] for i in range(N+2)]
     arrive = [0] * (N+2)

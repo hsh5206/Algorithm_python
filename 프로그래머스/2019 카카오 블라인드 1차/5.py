@@ -1,3 +1,4 @@
+# 길 찾기 게임
 import sys
 sys.setrecursionlimit = 10**4
 
