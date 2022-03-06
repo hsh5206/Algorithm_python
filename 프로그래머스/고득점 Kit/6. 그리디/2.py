@@ -18,6 +18,3 @@ def solution(name):
     if answer < 0:
         return 0
     return answer
-
-
-print(solution("AAA"))
