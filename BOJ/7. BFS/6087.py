@@ -26,14 +26,18 @@ def bfs(a, b):
     visited[a][b] = 0
     while q:
         x, y, dir, result = q.popleft()
+        # 도착지점 이라면 최소값 계산후 continue
         if (x, y) == end:
             answer = min(answer, result)
             continue
         for ndir in range(4):
             nx = x + dx[ndir]
             ny = y + dy[ndir]
+            # 다음 위치가 범위 내이고, 벽이 아니라면
             if 0 <= nx < N and 0 <= ny < M and arr[nx][ny] != '*':
+                # 현재 까지 사용한 거울의 수가 현 위치의 최소값과 같다면
                 if result == visited[x][y]:
+                    # 처음 방문 한다면
                     if not visited[nx][ny]:
                         if dir == -1 or dir == ndir:
                             visited[nx][ny] = result
@@ -41,6 +45,7 @@ def bfs(a, b):
                         elif dir != ndir:
                             visited[nx][ny] = result + 1
                             q.append((nx, ny, ndir, result + 1))
+                    # 이미 방문 했다면
                     else:
                         if dir == ndir and visited[nx][ny] >= result:
                             visited[nx][ny] = result
