@@ -14,7 +14,6 @@ for _ in range(r):
 
 for k in range(N+1):
     for i in range(N+1):
-        cnt = 0
         for j in range(N+1):
             if arr[i][j] > arr[i][k] + arr[k][j]:
                 arr[i][j] = arr[i][k] + arr[k][j]
