@@ -4,7 +4,8 @@ import re
 def solution(logs):
     answer = len(logs)
     for x in logs:
-        now = re.findall(r' : \w{1,}', x)
+        now = re.findall(
+            r'^[a-z_]+ : ', x)
         temp = re.findall(r' : [a-zA-Z]{1,}', x)
         print(now, temp)
         for i in range(len(now)):
