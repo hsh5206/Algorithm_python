@@ -1,6 +1,6 @@
 # https://programmers.co.kr/learn/courses/30/lessons/12973
 def solution(s):
-    answer = 0 if can_remove(list(s)) else 1
+    answer = 0 if can_remove(s) else 1
     return answer
 
 
