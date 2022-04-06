@@ -3,68 +3,50 @@ from collections import defaultdict
 
 
 class Node:
-    def __init__(self, index, depth):
-        self.index = index
-        self.left = None
-        self.right = None
-        self.depth = depth
+    def __init__(self, parent, node, left, right):
+        self.parent = parent
+        self.node = node
+        self.left = left
+        self.right = right
 
 
-class Tree:
-    def __init__(self, index, depth):
-        self.max_depth = 0
-        self.head = Node(index, depth)
-        self.head.left = None
-        self.head.right = None
+def get(level):
+    global position
+    if node.left_node != -1:
+        get(tree[node.left_node], level + 1)  # 왼쪽 노드가 있는 경우 먼저 방문, 레벨 + 1
 
-    def add(self, index, left, right):
-        current, depth = self.find(self.head, index)
-        if left != -1:
-            current.left = Node(left, depth)
-            self.max_depth = max(self.max_depth, depth)
-        if right != -1:
-            current.right = Node(right, depth)
-            self.max_depth = max(self.max_depth, depth)
+    position += 1  # 해당 노드의 위치 지정
+    if level in result:
+        # 해당 레벨에 이미 다른 노드의 위치가 들어가 있는 경우 리스트 뒤에 추가
+        result[level].append(position)
+    else:
+        result[level] = [position]  # 해당 레벨에 노드가 처음인 경우 리스트 형태로 노드 위치 추가
 
-    def find(self, node, index):
-        current = node
-        if current.index == index:
-            return [current, current.depth+1]
-        if current.left != None:
-            temp = self.find(current.left, index)
-            if temp:
-                return temp
-        if current.right != None:
-            temp2 = self.find(current.right, index)
-            if temp2:
-                return temp2
-
-    def get(self, result):
-        global num
-        num = 1
-
-        def do(curr):
-            global num
-            if curr.left != None:
-                do(curr.left)
-            result[curr.depth].append(num)
-            num += 1
-            if curr.right != None:
-                do(curr.right)
-
-        do(self.head)
+    if node.right_node != -1:
+        get(tree[node.right_node], level + 1)
 
 
 N = int(input())
-T = Tree(1, 1)
+node, left, right = map(int, input().split())
+tree = dict()
+
+for i in range(1, N + 1):
+    tree[i] = Node(i, -1, -1, -1)
+
 for _ in range(N):
-    node, left, right = map(int, input().split())
-    T.add(node, left, right)
+    p, left, right = map(int, input().split())
+    if left != -1:
+        tree[p].left_node = left
+        tree[left].parent = p
+    if right != -1:
+        tree[p].right_node = right
+        tree[right].parent = p
+
 result = defaultdict(list)
-T.get(result)
 answer = [0, 0]
-for x in range(1, T.max_depth+1):
+for x in sorted(result.keys()):
     result[x].sort()
-    if answer[1] < (result[x][-1]-result[x][0]+1):
-        answer = [x, result[x][-1]-result[x][0]+1]
+if result[x][-1]-result[x][0]+1 > answer[1]:
+    answer[0] = x
+    answer[1] = result[x][-1]-result[x][0]+1
 print(*answer)
