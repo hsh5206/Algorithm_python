@@ -3,7 +3,7 @@
 def solution(numbers):
     answer = []
     for x in numbers:
-        x = int(x)
+        x = int(x)  # 7,8,9번 런타임 에러 문제의 입력 오류
         arr = list('0'+bin(x)[2:])
         index = ''.join(arr).rfind('0')
         arr[index] = '1'
