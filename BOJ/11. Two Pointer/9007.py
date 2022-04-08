@@ -21,18 +21,18 @@ for _ in range(T):
     # 투포인터
     result = 0
     diff = sys.maxsize
-    left, right = 0, len(two)-1
-    while left < len(one) and 0 <= right:
-        temp = one[left]+two[right]-k
+    i, j = 0, len(two)-1
+    while i < len(one) and 0 <= j:
+        temp = one[i]+two[j]-k
         if abs(temp) < diff:
             diff = abs(temp)
             result = temp + k
         elif abs(temp) == diff:
             result = min(result, temp+k)
         if temp < 0:
-            left += 1
+            i += 1
         elif temp > 0:
-            right -= 1
+            j -= 1
         else:
             break
 
