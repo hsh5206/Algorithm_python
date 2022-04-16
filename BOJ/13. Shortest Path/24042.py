@@ -17,6 +17,8 @@ def dijkstra():
     visited[1] = 0
     while q:
         time, node = heapq.heappop(q)
+        if node == N:
+            return time
         if visited[node] < time:
             continue
         for i, nnode in arr[node]:
@@ -25,7 +27,6 @@ def dijkstra():
             if time <= ntime and visited[nnode] > ntime+1:
                 visited[nnode] = ntime+1
                 heapq.heappush(q, (ntime+1, nnode))
-    return visited[N]
 
 
 print(dijkstra())
@@ -33,4 +34,3 @@ print(dijkstra())
 # i+(n-1)M
 # time <= i+(n-1)M
 # (time-i)/M <= n-1
-# time == 15, i == 2, M == 3, 3+6+6, 3+(13//1)*1
