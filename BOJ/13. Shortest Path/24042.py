@@ -24,7 +24,7 @@ def dijkstra():
         for i, nnode in arr[node]:
             ntime = i+((time-i)//M)*M if (time-i) % M == 0 else i + \
                 ((time-i)//M+1)*M
-            if time <= ntime and visited[nnode] > ntime+1:
+            if visited[nnode] > ntime+1:
                 visited[nnode] = ntime+1
                 heapq.heappush(q, (ntime+1, nnode))
 
